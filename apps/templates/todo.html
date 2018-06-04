@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>todo_list</title>
+</head>
+<body>
+
+
+<form method="post">
+    {{ form.csrf_token() }}
+    {{ form.todo.label }}{{ form.todo }}<br>
+    {{ form.submit }}<br>
+
+</form>
+
+<hr>
+
+<ul>
+    {% for todo in todos %}
+        <li>{{ todo.info }}
+            <a href="{{ url_for('delete_todo', todo_id=todo.id) }}">删除</a>
+            <a href="{{ url_for('done_todo', todo_id=todo.id) }}">完成</a>
+        </li>
+        {% if not todo.finished %}
+            <h4>未完成</h4>
+        {% else %}
+            <h4>完成</h4>
+        {% endif %}
+    {% endfor %}
+</ul>
+{% for message in get_flashed_messages() %}
+    <h3 style="color:red">{{ message }}</h3>
+{% endfor %}
+</body>
+</html>
